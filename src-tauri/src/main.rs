@@ -5,17 +5,19 @@
 
 use std::fs::File;
 use std::fs;
+use std::io::Read;
 use image::{DynamicImage, GenericImageView, ImageFormat};
 use image::imageops::FilterType;
 use nfd::Response;
+use tauri::api::file;
+
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
 #[tauri::command]
 fn validate_license(license: String) -> bool {
-    let contents = fs::read_to_string("../src-tauri/src/license")
-        .expect("Should have been able to read the file");
-
+    let license_bytes: &'static [u8] = include_bytes!("../src/license");
+    let contents = String::from_utf8_lossy(license_bytes).to_string();
     if contents == ""{
         let res = check_license(license.as_str().clone());
         if res == true{
