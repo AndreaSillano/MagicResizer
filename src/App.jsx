@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Icon } from '@iconify/react';
 import chainIcon from '@iconify/icons-system-uicons/chain';
 import chainBroken from '@iconify/icons-fa/chain-broken';
@@ -21,7 +21,19 @@ function App() {
   const [rotation, setRotation] = useState(0);
   const [loading, setLoading] = useState(false);
   const [proportion, setProportion] = useState(0.0);
+  const [licenseInput, setLicenseInput] = useState("");
+  const [licensed, setLicensed] = useState(false);
+    const [invalid, setInvalid] = useState(false);
+  useEffect(()=>{
+    validate_license("").then();
+  })
 
+
+  async function validate_license(license){
+      setLicensed(await invoke("validate_license",{ license: license}));
+
+      //console.log(await invoke("validate_license",{ license: license}));
+  }
   async function submit_resize(){
       setFile(false);
       setLoading(true);
@@ -108,9 +120,32 @@ function App() {
 
     }
 
+    function handle_license_input(e) {
+        setLicenseInput(e.target.value);
+    }
+
+    async function handle_license_submit(e) {
+        e.preventDefault()
+        let res = await validate_license(licenseInput);
+        setInvalid(!res);
+    }
+
     return (
         <div className="container">
-            {loading ?  <div className="mb-3"><Icon icon={loadingTwotoneLoop} width={100} color="#0F9D58"/> </div>: <>
+            {!licensed ?
+                <>
+                <form>
+                    <div className="form-group">
+                        <h2>Product-Key</h2>
+                        <input type="email" className="form-control" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="xxx-xxxxxxx-x" value={licenseInput} onChange={handle_license_input}/>
+                    </div>
+                    {invalid && <p className="error">Invalid Product-Key!</p>}
+                    <button type="submit" className="btn btn-primary" onClick={handle_license_submit}>Submit</button>
+                </form>
+                </>
+                :
+                <>{loading ?  <div className="mb-3"><Icon icon={loadingTwotoneLoop} width={100} color="#0F9D58"/> </div>: <>
       <h1>Welcome to Magic Resizer!</h1>
 
       <div className="row">
@@ -156,7 +191,7 @@ function App() {
 
 
       </form>
-            </>}
+            </>}</>}
     </div>
   );
 }
