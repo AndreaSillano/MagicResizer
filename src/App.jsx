@@ -10,8 +10,6 @@ import "./App.css";
 import {Button, Dropdown, Form, FormSelect} from "react-bootstrap";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
   const [text, setBtnText] = useState("Load Image");
   const [err, setError] = useState("");
   const [file, setFile] = useState(false);
@@ -22,21 +20,19 @@ function App() {
   const [format, setFormat]= useState("0");
   const [rotation, setRotation] = useState(0);
   const [loading, setLoading] = useState(false);
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    //setGreetMsg(await invoke("greet", { name }));
-  }
+  const [proportion, setProportion] = useState(0.0);
+
   async function submit_resize(){
       setFile(false);
       setLoading(true);
-      await invoke("resize", {path: path+"-"+dimension_x+"-"+dimension_y, exact: lockDim, format: format, rotation: String(rotation)});
+      await invoke("resize", {path: path, exact: lockDim, format: format, rotation: String(rotation), dimx: String(dimension_x), dimy: String(dimension_y) });
       await delete_file();
   }
   async function handle_new_dim_x(e){
 
       if(lockDim === true){
           setDimension_x(e.target.value);
-          setDimension_y(e.target.value);
+          setDimension_y(parseInt(String(e.target.value*proportion)));
       }else{
           setDimension_x(e.target.value);
       }
@@ -45,7 +41,7 @@ function App() {
     async function handle_new_dim_y(e){
         if(lockDim === true){
             setDimension_y(e.target.value);
-            setDimension_x(e.target.value);
+            setDimension_x(parseInt(String(e.target.value*(1/proportion))));
 
         }else{
             setDimension_y(e.target.value);
@@ -60,21 +56,25 @@ function App() {
     setBtnText("Load Image");
     setRotation(0);
       setLoading(false);
+      setProportion(0.0);
   }
     async function load_file() {
         // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
         //setGreetMsg(await invoke("compute_file_dimensions", { file }));
         try{
+            setLoading(true);
             let [name,dim,path] = await invoke("load_file")
             if (name !== "")
             {
                 setBtnText(name);
                 setError(false);
                 setPath(path);
-                console.log(path);
                 setFile(true);
                 setDimension_x(dim[0]);
                 setDimension_y(dim[1]);
+                setProportion( parseFloat(dim[1])/parseFloat(dim[0]));
+                setLoading(false);
+
 
             }else{
                 setLoading(false);
@@ -89,7 +89,7 @@ function App() {
 
     function handleChangeLock() {
       if(lockDim === false){
-          setDimension_y(dimension_x);
+          setDimension_y(parseInt(String(dimension_x*proportion)));
       }
         setLockDim(!lockDim);
     }

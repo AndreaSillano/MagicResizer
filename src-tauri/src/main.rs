@@ -42,12 +42,12 @@ fn load_file()-> (String, (u32,u32), String) {
     }
 }
 #[tauri::command]
-fn resize(path: String, exact: bool, format: String, rotation: String)->bool {
-    let split_res:Vec<_> = path.split("-").collect();
-    let img = image::open(split_res[0]).unwrap();
+fn resize(path: String, exact: bool, format: String, rotation: String, dimx: String, dimy: String)->bool {
+    //let split_res:Vec<_> = path.split("-").collect();
+    let img = image::open(path).unwrap();
 
-    let x = split_res[1].parse::<i32>().unwrap();
-    let y = split_res[2].parse::<i32>().unwrap();
+    let x =dimx.parse::<i32>().unwrap();
+    let y = dimy.parse::<i32>().unwrap();
     let mut new_img = img.clone();
     let mut rot = rotation.parse::<i32>().unwrap();
     if rot > 0 {
@@ -57,6 +57,7 @@ fn resize(path: String, exact: bool, format: String, rotation: String)->bool {
     }
     if exact == true {
         new_img = new_img.resize(x as u32, y as u32, FilterType::Lanczos3);
+
     }else{
         new_img = new_img.resize_exact(x as u32, y as u32, FilterType::Lanczos3);
     }
@@ -79,20 +80,18 @@ fn resize(path: String, exact: bool, format: String, rotation: String)->bool {
 
 }
 fn handle_png(path: String, new_img: DynamicImage){
-    let mut output = File::create(path+".png").unwrap();
-    new_img.write_to(&mut output, ImageFormat::Png).unwrap()
+    //let mut output = File::create(path+".png").unwrap();
+    new_img.save_with_format(path.clone()+".png",ImageFormat::Png).unwrap();
+    //new_img.write_to(&mut output, ImageFormat::Png).unwrap()
 }
 fn handle_jpg(path: String, new_img: DynamicImage){
-    let mut output = File::create(path+".jpeg").unwrap();
-    new_img.write_to(&mut output, ImageFormat::Jpeg).unwrap()
+    new_img.save_with_format(path.clone()+".jpeg",ImageFormat::Jpeg).unwrap();
 }
 fn handle_tiff(path: String, new_img: DynamicImage){
-    let mut output = File::create(path+".tiff").unwrap();
-    new_img.write_to(&mut output, ImageFormat::Tiff).unwrap()
+    new_img.save_with_format(path.clone()+".tiff",ImageFormat::Tiff).unwrap();
 }
 fn handle_gif(path: String, new_img: DynamicImage){
-    let mut output = File::create(path+".gif").unwrap();
-    new_img.write_to(&mut output, ImageFormat::Gif).unwrap()
+    new_img.save_with_format(path.clone()+".gif",ImageFormat::Gif).unwrap();
 }
 
 fn main() {
