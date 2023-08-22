@@ -184,6 +184,7 @@ function App() {
     }
 
     return (
+        <>
         <div className="container">
             {bulk ?<>
 
@@ -320,7 +321,11 @@ function App() {
 
       </form>
             </>}</>}
+
     </div>
+            <footer>
+                <p>Developed By Andrea Sillano</p>
+            </footer></>
   );
 }
 
