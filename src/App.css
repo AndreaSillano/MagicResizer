@@ -1,0 +1,151 @@
+
+.logo.vite:hover {
+  filter: drop-shadow(0 0 2em #747bff);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafb);
+}
+
+.button-44-up {
+  background: #4285f4;
+  border-radius: 11px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-family: Mija,-apple-system,BlinkMacSystemFont,Roboto,"Roboto Slab","Droid Serif","Segoe UI",system-ui,Arial,sans-serif;
+  font-size: 1.15em;
+  font-weight: 700;
+  justify-content: center;
+  height: 48px;;
+  padding: .8em 1em;
+  text-align: center;
+  text-decoration: none;
+  text-decoration-skip-ink: auto;
+  text-shadow: rgba(0, 0, 0, .3) 1px 1px 1px;
+  text-underline-offset: 1px;
+  transition: all .2s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 30%;
+  word-break: break-word;
+  border: 0;
+}
+
+.button-44-up:active,
+.button-44-up:focus {
+  border-bottom-style: none;
+  border-color: #dadada;
+  box-shadow: rgba(0, 0, 0, .3) 0 3px 3px inset;
+  outline: 0;
+}
+
+.button-44-up:hover {
+  border-bottom-style: none;
+  border-color: #dadada;
+}
+
+.button-44 {
+  background: #e62143;
+  border-radius: 11px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-family: Mija,-apple-system,BlinkMacSystemFont,Roboto,"Roboto Slab","Droid Serif","Segoe UI",system-ui,Arial,sans-serif;
+  font-size: 1.15em;
+  font-weight: 700;
+  justify-content: center;
+  height: 48px;
+  padding: .8em 1em;
+  margin-left: 1em;
+  text-align: center;
+  text-decoration: none;
+  text-decoration-skip-ink: auto;
+  text-shadow: rgba(0, 0, 0, .3) 1px 1px 1px;
+  text-underline-offset: 1px;
+  transition: all .2s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 6%;
+  word-break: break-word;
+  border: 0;
+}
+
+.button-44:active,
+.button-44:focus {
+  border-bottom-style: none;
+  border-color: #dadada;
+  box-shadow: rgba(0, 0, 0, .3) 0 3px 3px inset;
+  outline: 0;
+}
+
+.button-44:hover {
+  border-bottom-style: none;
+  border-color: #dadada;
+}
+.dim-input{
+  width: 10%;
+  margin-top: 1em;
+}
+.label-dim{
+  margin-left: 1em;
+
+}
+.error{
+  color: #DB4437
+}
+.chain_btn{
+  margin-left: 1em;
+
+}
+
+
+select {
+  /* Reset Select */
+  appearance: none;
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+  /* Personalize */
+  flex: 1;
+  padding: 0 1em;
+  color: #484848;
+  background-color: #fff;
+  background-image: none;
+  cursor: pointer;
+}
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+/* Custom Select wrapper */
+.select {
+  color: #2f2f2f;
+  position: relative;
+  display: flex;
+  width: 5em;
+  height: 3em;
+  border-radius: .25em;
+  overflow: hidden;
+}
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  font-size: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1em;
+  background-color: #fff;
+  transition: .25s all ease;
+  pointer-events: none;
+}
+/* Transition */
+.select:hover::after {
+  color: #f39c12;
+}
+
