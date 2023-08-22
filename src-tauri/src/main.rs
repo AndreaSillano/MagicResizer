@@ -5,7 +5,7 @@
 
 use std::fs::File;
 use std::fs;
-use std::io::Read;
+use std::io::{Read, Write};
 use image::{DynamicImage, GenericImageView, ImageFormat};
 use image::imageops::FilterType;
 use nfd::Response;
@@ -15,41 +15,7 @@ use tauri::api::file;
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
 #[tauri::command]
-fn validate_license(license: String) -> bool {
-    let license_bytes: &'static [u8] = include_bytes!("../src/license");
-    let contents = String::from_utf8_lossy(license_bytes).to_string();
-    if contents == ""{
-        let res = check_license(license.as_str().clone());
-        if res == true{
-            fs::write("../src-tauri/src/license", license).expect("Unable To Write!");
-            return true;
-        }else {
-            return false;
-        }
-    }else{
-        return check_license(contents.as_str().clone());
-    }
-}
-fn check_license(license_key: &str)->bool{
-    let components: Vec<&str> = license_key.split('-').collect();
 
-    if components.len() != 3 {
-        return false;
-    }
-
-    let first_three: i32 = components[0].parse().unwrap_or_default();
-    let last_seven: &str = components[1];
-    let checksum: i32 = components[2].parse().unwrap_or_default();
-
-    if [333, 444, 555, 666, 777, 888, 999].contains(&first_three) {
-        return false;
-    }
-
-    let total: i32 = last_seven.chars().map(|c| c.to_digit(10).unwrap_or_default() as i32).sum();
-
-    total % 7 == checksum
-}
-#[tauri::command]
 fn load_file()-> (String, (u32,u32), String) {
     let result = nfd::dialog().open().unwrap_or_else(|e| {
         panic!("{}",e);
@@ -133,7 +99,7 @@ fn handle_gif(path: String, new_img: DynamicImage){
 fn main() {
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![validate_license, load_file, resize])
+        .invoke_handler(tauri::generate_handler![load_file, resize])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
