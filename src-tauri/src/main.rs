@@ -42,17 +42,23 @@ fn load_file()-> (String, (u32,u32), String) {
     }
 }
 #[tauri::command]
-fn resize(path: String, exact: bool, format: String)->bool {
+fn resize(path: String, exact: bool, format: String, rotation: String)->bool {
     let split_res:Vec<_> = path.split("-").collect();
     let img = image::open(split_res[0]).unwrap();
 
     let x = split_res[1].parse::<i32>().unwrap();
     let y = split_res[2].parse::<i32>().unwrap();
     let mut new_img = img.clone();
+    let mut rot = rotation.parse::<i32>().unwrap();
+    if rot > 0 {
+       for _ in 0..rot{
+           new_img = new_img.rotate90();
+       }
+    }
     if exact == true {
-        new_img = img.resize(x as u32, y as u32, FilterType::Lanczos3);
+        new_img = new_img.resize(x as u32, y as u32, FilterType::Lanczos3);
     }else{
-        new_img = img.resize_exact(x as u32, y as u32, FilterType::Lanczos3);
+        new_img = new_img.resize_exact(x as u32, y as u32, FilterType::Lanczos3);
     }
     if let Response::Okay(path) = nfd::dialog_save().open().unwrap_or_else(|e|{panic!("{}",e);}){
 

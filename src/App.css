@@ -93,14 +93,20 @@
 }
 .label-dim{
   margin-left: 1em;
+}
 
+
+.rotate_icon_right:hover{
+  color: #0F9D58;
 }
 .error{
   color: #DB4437
 }
+.chain_btn:hover{
+  color: #F4B400;
+}
 .chain_btn{
   margin-left: 1em;
-
 }
 
 

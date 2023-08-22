@@ -19,7 +19,9 @@
   },
   "devDependencies": {
     "@iconify/icons-fa": "^1.2.3",
+    "@iconify/icons-line-md": "^1.2.24",
     "@iconify/icons-system-uicons": "^1.2.7",
+    "@iconify/icons-vaadin": "^1.2.4",
     "@iconify/react": "^4.1.1",
     "@tauri-apps/cli": "^1.4.0",
     "@vitejs/plugin-react": "^4.0.3",
