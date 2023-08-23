@@ -233,6 +233,9 @@ select::-ms-expand {
   overflow: auto; /* Enable vertical scrolling when content overflows */
   border: 1px solid #ccc; /* Optional: Add a border for visualization */
 }
+
+
+
 /* The switch - the box around the slider */
 .switch {
   position: relative;
@@ -295,5 +298,7 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-
-
+.submitBtn{
+  background-color: #0F9D58;
+  color: white;
+}

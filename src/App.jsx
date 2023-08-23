@@ -11,7 +11,7 @@ import {Button, Dropdown, Form, FormSelect} from "react-bootstrap";
 import trashIcon from '@iconify/icons-lucide/trash';
 import flipH from '@iconify/icons-gis/flip-h';
 import flipV from '@iconify/icons-gis/flip-v';
-import { readBinaryFile, BaseDirectory } from '@tauri-apps/api/fs';import Cropper from 'react-easy-crop';
+import { readBinaryFile, BaseDirectory } from '@tauri-apps/api/fs';
 
 function App() {
   const [text, setBtnText] = useState("Load Image");
@@ -32,15 +32,14 @@ function App() {
   const [flipVer, setFlipV] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
 
-
     useEffect(() => {
-        if (bulk){
-            return;
+        if (!bulk){
+            if(file){
+                loadImage();
+            }
         }
 
-        if(file){
-            loadImage();
-        }
+
     }, [file]);
 
     const loadImage = async () => {
@@ -248,7 +247,7 @@ function App() {
                                     <>
                                      <h3>Bulk Mode</h3>
                                     <label className="switch">
-                                    <input type="checkbox" onChange={handle_bulk_mode}/>
+                                    <input type="checkbox" defaultChecked={bulk} onClick={handle_bulk_mode}/>
                                     <span className="slider round">
                                     </span>
                                 </label></>}
@@ -299,7 +298,7 @@ function App() {
                                     submit_resize_bulk();
                                 }}
                             >
-                                { file && <> <button type="submit">Resize</button>
+                                { file && <> <button className="submitBtn" type="submit">Resize</button>
 
                                     <div className="select">
                                         <select onChange={handle_format}>
@@ -322,14 +321,10 @@ function App() {
                   <h1>Welcome to Magic Resizer!</h1>
                   <div className="row ">
                       {file ?
-                        <>
                           <img src={imageUrl} className="image_loaded" alt="image could not be previewed"  style={{ transform: `rotate(${rotation*90}deg) scaleX(${flipHor ? -1 : 1}) scaleY(${flipVer ? -1 : 1})`}}/>
-
-                        </>
-
                           :
                           <img src="/logo.png" className="logo" alt="logo" />}
-                  </div>
+                    </div>
                     {file && <p>{text}</p>}
                     <div className="mb-3">
                         <div className="row">
@@ -340,8 +335,8 @@ function App() {
                             <>
                                 <h3>Single Mode</h3>
                                 <label className="switch">
-                                    <input type="checkbox" onChange={handle_bulk_mode}/>
-                                    <span className="slider round">
+                                    <input type="checkbox"  onClick={handle_bulk_mode}/>
+                                    <span className="slider round" >
                                     </span>
                                 </label></>}
                     </div>
@@ -378,7 +373,7 @@ function App() {
                       submit_resize();
                     }}
                   >
-                      { file && <> <button type="submit">Resize</button>
+                      { file && <> <button type="submit" className="submitBtn">Resize</button>
 
                           <div className="select">
                               <select onChange={handle_format}>
