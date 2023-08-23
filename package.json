@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@iconify/icons-fa": "^1.2.3",
+    "@iconify/icons-gis": "^1.2.6",
     "@iconify/icons-line-md": "^1.2.24",
     "@iconify/icons-lucide": "^1.2.117",
     "@iconify/icons-system-uicons": "^1.2.7",

@@ -76,7 +76,7 @@ fn load_file_bulk()-> (Vec<String>, Vec<String>) {
     }
 }
 #[tauri::command]
-fn resize(path: String, exact: bool, format: String, rotation: String, dimx: String, dimy: String)->bool {
+fn resize(path: String, exact: bool, format: String, rotation: String, dimx: String, dimy: String, flipv: bool, fliph: bool)->bool {
     //let split_res:Vec<_> = path.split("-").collect();
     let img = image::open(path).unwrap();
 
@@ -88,6 +88,12 @@ fn resize(path: String, exact: bool, format: String, rotation: String, dimx: Str
        for _ in 0..rot{
            new_img = new_img.rotate90();
        }
+    }
+    if fliph==true{
+        new_img = new_img.fliph();
+    }
+    if flipv==true{
+        new_img = new_img.flipv();
     }
     if exact == true {
         new_img = new_img.resize(x as u32, y as u32, FilterType::Lanczos3);
@@ -114,7 +120,7 @@ fn resize(path: String, exact: bool, format: String, rotation: String, dimx: Str
 
 }
 #[tauri::command]
-fn resize_bulk(path: Vec<String>, exact: bool, format: String, rotation: String, dimx: String, dimy: String)->bool {
+fn resize_bulk(path: Vec<String>, exact: bool, format: String, rotation: String, dimx: String, dimy: String, flipv: bool, fliph:bool )->bool {
     //let split_res:Vec<_> = path.split("-").collect();
     println!("{:?}", path);
 
@@ -130,6 +136,12 @@ fn resize_bulk(path: Vec<String>, exact: bool, format: String, rotation: String,
                 for _ in 0..rot{
                     new_img = new_img.rotate90();
                 }
+            }
+            if fliph==true{
+                new_img = new_img.fliph();
+            }
+            if flipv==true{
+                new_img = new_img.flipv();
             }
             if exact == true {
                 new_img = new_img.resize(x as u32, y as u32, FilterType::Lanczos3);

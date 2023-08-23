@@ -9,6 +9,8 @@ import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
 import {Button, Dropdown, Form, FormSelect} from "react-bootstrap";
 import trashIcon from '@iconify/icons-lucide/trash';
+import flipH from '@iconify/icons-gis/flip-h';
+import flipV from '@iconify/icons-gis/flip-v';
 function App() {
   const [text, setBtnText] = useState("Load Image");
   const [err, setError] = useState("");
@@ -24,14 +26,15 @@ function App() {
   const [bulk, setBulk] = useState(false);
   const [pathBulk,setPathBulk] = useState([]);
   const [nameBulk,setNameBulk] = useState([]);
-
+  const [flipHor, setFlipH] = useState(false);
+  const [flipVer, setFlipV] = useState(false);
 
 
   async function submit_resize(){
       setFile(false);
       setLoading(true);
       if (dimension_x && dimension_y){
-        await invoke("resize", {path: path, exact: lockDim, format: format, rotation: String(rotation), dimx: String(dimension_x), dimy: String(dimension_y) });
+        await invoke("resize", {path: path, exact: lockDim, format: format, rotation: String(rotation), dimx: String(dimension_x), dimy: String(dimension_y), flipv: flipVer, fliph: flipHor  });
       }
       setLoading(false);
       await delete_file();
@@ -40,7 +43,7 @@ function App() {
         setFile(false);
         setLoading(true);
         if (dimension_x && dimension_y){
-            await invoke("resize_bulk", {path: pathBulk, exact: lockDim, format: format, rotation: String(rotation), dimx: String(dimension_x), dimy: String(dimension_y) });
+            await invoke("resize_bulk", {path: pathBulk, exact: lockDim, format: format, rotation: String(rotation), dimx: String(dimension_x), dimy: String(dimension_y),flipv: flipVer, fliph: flipHor });
         }
         setLoading(false);
         await delete_file();
@@ -88,6 +91,8 @@ function App() {
       setProportion(0.0);
       setNameBulk([]);
       setPathBulk([]);
+      setFlipV(false);
+      setFlipH(false);
   }
     async function load_file() {
         // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -183,6 +188,14 @@ function App() {
         setBulk(!bulk);
     }
 
+    function handle_flip_H() {
+        setFlipH(!flipHor);
+    }
+
+    function handle_flip_V() {
+        setFlipV(!flipVer);
+    }
+
     return (
         <>
         <div className="container">
@@ -234,9 +247,22 @@ function App() {
                                     <label className="label-dim">Y: <input className="dim-input" type="number" id="dim_y" min ="0" value={dimension_y} onChange={handle_new_dim_y}/></label></>}
                             </div>
                             <div className="mb-3">
-                                {file &&<p>Rotation 90°</p>}
-                                {file && <><Icon icon={rotateRight} className="rotate_icon_right" width={30} onClick={handle_rotation_right} rotate={rotation-1}/></>}
+                                <div className="row">
+                                    {file &&<p className="action_label"> Rotation 90°</p>}
+                                    {file && <p className="action_label">Flip Horizontal</p>}
+                                    {file && <p className="action_label">Flip Vertical</p>}
+
+                                </div>
+                                <div className="row">
+                                    {file && <><Icon icon={rotateRight} className="rotate_icon_right" width={30} onClick={handle_rotation_right} rotate={rotation-1}/></>}
+
+                                    {file && <Icon className="flip_icon_right" icon={flipH} hFlip={!flipHor} width={30} onClick={handle_flip_H}/>}
+                                    {file && <Icon className="flip_icon_right" icon={flipV} vFlip={flipVer} width={30} onClick={handle_flip_V}/>}
+
+                                </div>
+
                             </div>
+
                             {file && <p>Click Resize to save a new Images</p>}
                             {err && <h4  className="error" >Invalid File Format</h4>}
                             <form
@@ -293,8 +319,20 @@ function App() {
                                 <label className="label-dim">Y: <input className="dim-input" type="number" id="dim_y" min ="0" value={dimension_y} onChange={handle_new_dim_y}/></label></>}
                     </div>
                     <div className="mb-3">
-                        {file &&<p>Rotation 90°</p>}
+                        <div className="row">
+                            {file &&<p className="action_label"> Rotation 90°</p>}
+                            {file && <p className="action_label">Flip Horizontal</p>}
+                            {file && <p className="action_label">Flip Vertical</p>}
+
+                        </div>
+                        <div className="row">
                         {file && <><Icon icon={rotateRight} className="rotate_icon_right" width={30} onClick={handle_rotation_right} rotate={rotation-1}/></>}
+
+                        {file && <Icon className="flip_icon_right" icon={flipH} hFlip={!flipHor} width={30} onClick={handle_flip_H}/>}
+                            {file && <Icon className="flip_icon_right" icon={flipV} vFlip={flipVer} width={30} onClick={handle_flip_V}/>}
+
+                        </div>
+
                     </div>
 
                     {file && <p>Click Resize to save a new Image</p>}

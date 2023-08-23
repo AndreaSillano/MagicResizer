@@ -140,9 +140,22 @@ footer {
   margin-left: 1em;
 }
 
-
+.rotate_icon_right{
+  margin-right: 3em ;
+  margin-left: 3em;
+}
 .rotate_icon_right:hover{
   color: #0F9D58;
+}
+.flip_icon_right{
+  margin-right: 3em ;
+  margin-left: 3em;
+}
+.flip_icon_right:hover{
+  color: #0F9D58;
+}
+.action_label{
+  margin: 1em;
 }
 .error{
   color: #DB4437
