@@ -12,6 +12,36 @@
   },
   "tauri": {
     "allowlist": {
+      "fs": {
+        "scope": [
+          "$APPCONFIG/*",
+          "$APPDATA/*",
+          "$APPLOCALDATA/*",
+          "$APPCACHE/*",
+          "$APPLOG/*",
+          "$AUDIO/*",
+          "$CACHE/*",
+          "$CONFIG/*",
+          "$DATA/*",
+          "$LOCALDATA/*",
+          "$DESKTOP/*",
+          "$DOCUMENT/*",
+          "$DOWNLOAD/*",
+          "$EXE/*",
+          "$FONT/*",
+          "$HOME/*",
+          "$PICTURE/*",
+          "$PUBLIC/*",
+          "$RUNTIME/*",
+          "$TEMPLATE/*",
+          "$VIDEO/*",
+          "$RESOURCE/*",
+          "$APP/*",
+          "$LOG/*",
+          "$TEMP/*"
+        ],
+        "all": true
+      },
       "all": false,
       "shell": {
         "all": false,

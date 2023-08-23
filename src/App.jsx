@@ -11,6 +11,8 @@ import {Button, Dropdown, Form, FormSelect} from "react-bootstrap";
 import trashIcon from '@iconify/icons-lucide/trash';
 import flipH from '@iconify/icons-gis/flip-h';
 import flipV from '@iconify/icons-gis/flip-v';
+import { readBinaryFile, BaseDirectory } from '@tauri-apps/api/fs';import Cropper from 'react-easy-crop';
+
 function App() {
   const [text, setBtnText] = useState("Load Image");
   const [err, setError] = useState("");
@@ -28,9 +30,32 @@ function App() {
   const [nameBulk,setNameBulk] = useState([]);
   const [flipHor, setFlipH] = useState(false);
   const [flipVer, setFlipV] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
 
 
-  async function submit_resize(){
+    useEffect(() => {
+        if (bulk){
+            return;
+        }
+
+        if(file){
+            loadImage();
+        }
+    }, [file]);
+
+    const loadImage = async () => {
+        try {
+            const response = await readBinaryFile(path)
+            const imageData = new Uint8Array(response);
+            const blob = new Blob([imageData], { type: 'image/jpeg' });
+            const imageUrl = URL.createObjectURL(blob);
+            setImageUrl(imageUrl);
+        } catch (error) {
+            console.error('Error loading image:', error);
+        }
+    };
+
+    async function submit_resize(){
       setFile(false);
       setLoading(true);
       if (dimension_x && dimension_y){
@@ -93,6 +118,7 @@ function App() {
       setPathBulk([]);
       setFlipV(false);
       setFlipH(false);
+      setImageUrl("");
   }
     async function load_file() {
         // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -102,6 +128,7 @@ function App() {
             let [name,dim,path] = await invoke("load_file")
             if (name !== "")
             {
+
                 setBtnText(name);
                 setError(false);
                 setPath(path);
@@ -293,13 +320,20 @@ function App() {
 
                 : <>{loading ?  <div className="mb-3"><Icon icon={loadingTwotoneLoop} width={100} color="#0F9D58"/> </div>: <>
                   <h1>Welcome to Magic Resizer!</h1>
+                  <div className="row ">
+                      {file ?
+                        <>
+                          <img src={imageUrl} className="image_loaded" alt="image could not be previewed"  style={{ transform: `rotate(${rotation*90}deg) scaleX(${flipHor ? -1 : 1}) scaleY(${flipVer ? -1 : 1})`}}/>
 
-                  <div className="row">
-                      <img src="/logo.png" className="logo" alt="logo" />
+                        </>
+
+                          :
+                          <img src="/logo.png" className="logo" alt="logo" />}
                   </div>
+                    {file && <p>{text}</p>}
                     <div className="mb-3">
                         <div className="row">
-                            <Button className="button-44-up" role="button" onClick={load_file} disabled={file}>{text}</Button>
+                            <Button className="button-44-up" role="button" onClick={load_file} disabled={file}>Load Image</Button>
                             {file && <Button className="button-44" role="button" onClick={delete_file}>X</Button>}
                         </div>
                         {!file &&
