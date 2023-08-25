@@ -391,7 +391,7 @@ function App() {
 
     </div>
             <footer>
-                    <p>Developed By Andrea Sillano -  v 0.0.3</p>
+                    <p>Developed By Andrea Sillano -  v 0.0.6</p>
             </footer></>
   );
 }
