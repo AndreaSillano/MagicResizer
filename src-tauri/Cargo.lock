@@ -4,8 +4,9 @@ version = 3
 
 [[package]]
 name = "MagicResizer"
-version = "0.0.7"
+version = "0.1.8"
 dependencies = [
+ "cacao",
  "image",
  "nfd",
  "serde",
@@ -218,6 +219,24 @@ name = "bytes"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "89b2fd2a0dcf38d7971e2194b6b6eebab45ae01067456a7fd93d5547a61b70be"
+
+[[package]]
+name = "cacao"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5952f0958672e4aa8fc706d01905c56af57759e078c53a6fddf4a13361943e7a"
+dependencies = [
+ "block",
+ "core-foundation",
+ "core-graphics",
+ "dispatch",
+ "lazy_static",
+ "libc",
+ "objc",
+ "objc_id",
+ "os_info",
+ "url",
+]
 
 [[package]]
 name = "cairo-rs"
@@ -1823,6 +1842,17 @@ checksum = "2078c0039e6a54a0c42c28faa984e115fb4c2d5bf2208f77d1961002df8576f8"
 dependencies = [
  "pathdiff",
  "windows-sys 0.42.0",
+]
+
+[[package]]
+name = "os_info"
+version = "3.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "006e42d5b888366f1880eda20371fedde764ed2213dc8496f49622fa0c99cd5e"
+dependencies = [
+ "log",
+ "serde",
+ "winapi",
 ]
 
 [[package]]

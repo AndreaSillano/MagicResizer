@@ -50,6 +50,7 @@ function App() {
             const imageUrl = URL.createObjectURL(blob);
             setImageUrl(imageUrl);
         } catch (error) {
+
             console.error('Error loading image:', error);
         }
     };
@@ -321,7 +322,7 @@ function App() {
                   <h1>Welcome to Magic Resizer!</h1>
                   <div className="row ">
                       {file ?
-                          <img src={imageUrl} className="image_loaded" alt="image could not be previewed"  style={{ transform: `rotate(${rotation*90}deg) scaleX(${flipHor ? -1 : 1}) scaleY(${flipVer ? -1 : 1})`}}/>
+                          (imageUrl && <img src={imageUrl} className="image_loaded" alt="image could not be previewed"  style={{ transform: `rotate(${rotation*90}deg) scaleX(${flipHor ? -1 : 1}) scaleY(${flipVer ? -1 : 1})`}}/>)
                           :
                           <img src="/logo.png" className="logo" alt="logo" />}
                     </div>
@@ -391,7 +392,7 @@ function App() {
 
     </div>
             <footer>
-                    <p>Developed By Andrea Sillano -  v 0.0.6</p>
+                    <p>Developed By Andrea Sillano -  v 0.1.8</p>
             </footer></>
   );
 }
